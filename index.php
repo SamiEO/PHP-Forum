@@ -53,6 +53,14 @@ button{margin-top:5px;}
 			alert("Cannot create null comment");
 		}
 	});
+
+	function test(pID, rID, tID){
+		$("#row"+rID).append("<br><form action='functions.php' method='post'><textarea name='updComm' placeholder='Updated comment'></textarea><br>"
+				+"<input type='hidden' name='postID' value='"+pID+"'>"
+				+"<input type='hidden' name='topicID' value='"+tID+"'>"
+				+"<button type='submit' name='submit' value='updComment'>Update comment</button>");
+		$("#edit"+pID).remove();
+	}
 </script>
 </head>
 <body>

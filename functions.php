@@ -14,7 +14,15 @@ if(isset($_REQUEST['submit'])){
 			if(null != trim(filter_var($_POST['newComm'], FILTER_SANITIZE_STRING))){
 				addContent($_POST['topicID'], $_POST['newComm'], "c");
 			}else{
-				//TFF = TopicFieldsFilled
+				//PFF = PostFieldsFilled
+				header("Location: index.php?t=".$_POST['topicID']."&PFF=false");
+			}
+			break;
+		case 'updComment':
+			if(null != trim(filter_var($_POST['updComm'], FILTER_SANITIZE_STRING))){
+				updContent($_POST['topicID'], $_POST['updComm'], $_POST['postID']);
+			}else{
+				//PFF = PostFieldsFilled
 				header("Location: index.php?t=".$_POST['topicID']."&PFF=false");
 			}
 			break;
@@ -87,15 +95,21 @@ function printTopic($id){
 function printPosts($id){
 	$conn = connectToDB();
 	
-	$sql = "SELECT username, p_comment FROM post WHERE t_id = '".$id."'";
+	$sql = "SELECT p_id ,username, p_comment FROM post WHERE t_id = '".$id."'";
 	
 	$result = $conn->query($sql);
-
+	$row_id = 0;
+	
 	if ($result->num_rows > 0) {
 		// output data of each row
 		echo "<form action='functions.php' method='post'><table class='table'>";
 		while($row = $result->fetch_assoc()) {
-			echo "<tr><th>".$row["username"] ."</th><th>".$row["p_comment"]."</th></tr>";
+			$row_id++;
+			if($row["username"] == $_SESSION["userN"] || $row["username"] == $_COOKIE["username"]){
+				echo "<tr><td><b>".$row["username"] ."</b><br><a><p id='edit".$row["p_id"]."' onClick='test(".$row["p_id"].",".$row_id.",".$_GET["t"].")'>Edit".$row["p_id"]."</p></a></td><td  id='row".$row_id."'>".$row["p_comment"]."</td></tr>";
+			}else{
+				echo "<tr><td><b>".$row["username"] ."</b></td><td>".$row["p_comment"]."</td></tr>";
+			}
 		}
 		if(isset($_SESSION['userN']) && isset($_SESSION['userP']) || isset($_COOKIE['username']) && isset($_COOKIE['password'])){
 			echo "<tr><td><textarea name='newComm' placeholder='New Comment'></textarea>
@@ -202,8 +216,19 @@ function addContent($t, $d, $i){
 			echo "Error: " . $insert . "<br>" . mysqli_error($conn);
 		}
 	}
+}
 
-	
+function updContent($tID ,$c, $pID){
+	$conn = connectToDB();
+
+	trim($c);
+
+	$update = "UPDATE post SET p_comment = '".$c."' WHERE p_id = '".$pID."'";
+	if (mysqli_query($conn, $update)) {
+		header("Location: index.php?t=".$tID);
+	} else {
+		echo "Error: " . $update . "<br>" . mysqli_error($conn);
+	}
 }
 
 
