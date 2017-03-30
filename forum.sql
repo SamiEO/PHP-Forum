@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2017 at 03:40 PM
+-- Generation Time: Mar 30, 2017 at 09:33 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -38,9 +38,9 @@ CREATE TABLE `post` (
 --
 
 INSERT INTO `post` (`p_id`, `t_id`, `username`, `p_comment`) VALUES
-(1, 3, 'user2', 'Nice post you''ve got there.'),
+(1, 3, 'user2', 'Nice topic you have here.'),
 (2, 4, 'user1', 'Eat sand you sand eater!'),
-(3, 3, 'user2', 'I take it back, this post is not nice.');
+(3, 3, 'user2', 'I take it back, this topic is not nice.');
 
 -- --------------------------------------------------------
 
@@ -71,7 +71,7 @@ INSERT INTO `topic` (`t_id`, `t_name`, `username`, `t_desc`) VALUES
 
 CREATE TABLE `user` (
   `username` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL
+  `password` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -79,9 +79,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`username`, `password`) VALUES
-('user1', 'userpass'),
-('user2', 'userpass2'),
-('user3', 'userpass3');
+('user1', '$2y$10$tOWaw./tTzjr7XgEqk7S1ecPS7ZWP6rVhmwi90SREU0kngvCgoNOq'),
+('user2', '$2y$10$UGjD2Kh/YOXYAYDzdM0Bs.JW7S2tXoqbHunJizc.02BWrQW8RyF/e'),
+('user3', '$2y$10$UdFM7MdgJHJNBO5NiVh8GOgbaJvA9bTOsTInuWn0/WTstGu0gLvIO'),
+('user4', '$2y$10$jFLX3x2pnZSb8lsqlp/FhuAuIz76PplN785gJrGtYKclzNYYhCyqW');
 
 --
 -- Indexes for dumped tables

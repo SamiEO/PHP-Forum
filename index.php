@@ -51,15 +51,25 @@ button{margin-top:5px;}
 			alert("Please fill all text boxes when creating a new topic");
 		}else if(window.location.href.indexOf("PFF=false") > -1){
 			alert("Cannot create null comment");
+		}else if(window.location.href.indexOf("RFF=false") > -1){
+			alert("All registration fields have to be filled");
 		}
 	});
-
-	function test(pID, rID, tID){
-		$("#row"+rID).append("<br><form action='functions.php' method='post'><textarea name='updComm' placeholder='Updated comment'></textarea><br>"
-				+"<input type='hidden' name='postID' value='"+pID+"'>"
-				+"<input type='hidden' name='topicID' value='"+tID+"'>"
-				+"<button type='submit' name='submit' value='updComment'>Update comment</button>");
-		$("#edit"+pID).remove();
+	function showEdit(pID, rID, tID){
+		if($("#form"+rID).length){
+			if($("#form"+rID).is(":visible")){
+				$("#form"+rID).hide();
+			}else{$("#form"+rID).show();}
+			
+		}else{
+			$("#row"+rID).append("<br><form id='form"+rID+"' action='functions.php' method='post'><textarea name='updComm' placeholder='Updated comment'></textarea><br>"
+					+"<input type='hidden' name='postID' value='"+pID+"'>"
+					+"<input type='hidden' name='topicID' value='"+tID+"'>"
+					+"<button type='submit' name='submit' value='updComment'>Update comment</button> "
+					+"<button type='submit' name='submit' value='delComment' onClick=\"return confirm('Are you sure?')\">Delete comment</button>"
+					+"</form>");
+		}
+		
 	}
 </script>
 </head>
@@ -87,8 +97,8 @@ button{margin-top:5px;}
 			}else{
 				echo "
 				<form action='login.php' method='post'>
-					<input type='text' class='form-control' name='username' placeholder='Username'>
-					<input type='password' class='form-control' name='userpass' placeholder='Password'> 
+					<input type='text' class='form-control' name='username' placeholder='Username' >
+					<input type='password' class='form-control' name='userpass' placeholder='Password' > 
 					<input class='btn btn-primary' type='submit' name='submit' value='Login' action=''>
 					<input class='btn btn-primary' type='submit' name='submit' value='Register' action=''>
 				</form>";
